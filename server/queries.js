@@ -8,13 +8,29 @@ const pool = new Pool({
 });
 
 const getItems = (request, response) => {
-    pool.query('SELECT * FROM TodoItems', (error, results) => {
+  pool.query('SELECT * FROM TodoItems', (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
+
+const addItem = (request, response) => {
+  const { description } = request.body;
+
+  pool.query(
+    'INSERT INTO TodoItems (Description) VALUES ($1) RETURNING *',
+    [description],
+    (error, results) => {
       if (error) {
-        throw error;
+        response.status(500).send(error.message);
+        return;
       }
-      response.status(200).json(results.rows);
-    });
-  };
+      response.status(201).send(results.rows[0]);
+    }
+  );
+};
 
 const getUsers = (request, response) => {
   pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
@@ -80,6 +96,7 @@ const deleteUser = (request, response) => {
 
 module.exports = {
   getItems,
+  addItem,
   getUsers,
   getUserById,
   createUser,

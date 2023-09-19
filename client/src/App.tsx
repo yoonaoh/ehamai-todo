@@ -5,12 +5,24 @@ function App() {
   const [items, setItems] = useState<string[]>([]);
   const [newItem, setNewItem] = useState('');
 
-  const onAdd = async (i: string) => {
-
-    const newItemsList = [...items];
-    newItemsList.push(i);
-    setItems(newItemsList);
-    setNewItem('');
+  const addItem = async (i: string) => {
+    try{
+      const r = await fetch('http://localhost:3001/items', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ description: i })
+      });
+  
+      const json = await r.json();
+      const newItemsList = [...items];
+      newItemsList.push(json.description);
+      setItems(newItemsList);
+      setNewItem('');  
+    }catch(e){
+      console.log(e);
+    }
   }
 
   useEffect(() =>{
@@ -35,7 +47,7 @@ function App() {
         <ul>{listItems}
         </ul>
         <input type="text" value={newItem} onChange={e => setNewItem(e.target.value)}></input>
-        <button onClick={() => onAdd(newItem)}>Add</button>
+        <button onClick={() => addItem(newItem)}>Add</button>
 
       </section>
     </div>

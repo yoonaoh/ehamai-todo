@@ -19,6 +19,8 @@ app.get('/', (req, res) => {
 
 app.get('/items', db.getItems);
 
+app.post('/items', db.addItem);
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
