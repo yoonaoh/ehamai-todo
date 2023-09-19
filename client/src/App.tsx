@@ -1,12 +1,28 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 
+interface TodoItem {
+  id: number;
+  description: string;
+}
+
 function App() {
-  const [items, setItems] = useState<string[]>([]);
+  const [items, setItems] = useState<TodoItem[]>([]);
   const [newItem, setNewItem] = useState('');
 
+  useEffect(() => {
+    const getItems = async () => {
+      const r = await fetch('http://localhost:3001/items');
+      const json = await r.json() as any[];
+      const items = json.map(item => item);
+      setItems(items);
+    }
+
+    getItems().catch(e => console.log(e));
+  }, [])
+
   const addItem = async (i: string) => {
-    try{
+    try {
       const r = await fetch('http://localhost:3001/items', {
         method: 'POST',
         headers: {
@@ -14,29 +30,39 @@ function App() {
         },
         body: JSON.stringify({ description: i })
       });
-  
+
       const json = await r.json();
       const newItemsList = [...items];
       newItemsList.push(json.description);
       setItems(newItemsList);
-      setNewItem('');  
-    }catch(e){
+      setNewItem('');
+    } catch (e) {
       console.log(e);
     }
   }
 
-  useEffect(() =>{
-    const getItems = async ()=>{
-      const r = await fetch('http://localhost:3001/items');
-      const json = await r.json() as any[];
-      const items = json.map(item => item.description);
-      setItems(items);
-    }
-  
-    getItems().catch(e => console.log(e));
-  }, [])
+  const deleteItem = async (id: number) => {
+    try {
+      const r = await fetch(`http://localhost:3001/items/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: id })
+      });
 
-  const listItems = items.map((i, n) => <li key={n}>{i}</li>);
+      let updatedItemsList = [...items];
+      const indexToDelete = items.findIndex(i => i.id === id);
+      updatedItemsList.splice(indexToDelete, 1);
+      setItems(updatedItemsList);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const listItems = items.map((i) => {
+    return <li key={i.id}>{i.description} <a onClick={() => deleteItem(i.id)}>X</a></li>
+  });
 
   return (
     <div className="App">
