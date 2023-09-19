@@ -1,67 +1,43 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-
-interface TodoItem {
-  id: number;
-  description: string;
-}
+import { getItems, addItem, deleteItem } from './client';
+import { TodoItem } from './models';
 
 function App() {
   const [items, setItems] = useState<TodoItem[]>([]);
   const [newItem, setNewItem] = useState('');
 
   useEffect(() => {
-    const getItems = async () => {
-      const r = await fetch('http://localhost:3001/items');
-      const json = await r.json() as any[];
-      const items = json.map(item => item);
+    const initialize = async () =>{
+      const items = await getItems();
       setItems(items);
     }
 
-    getItems().catch(e => console.log(e));
+    initialize();
   }, [])
 
-  const addItem = async (i: string) => {
-    try {
-      const r = await fetch('http://localhost:3001/items', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ description: i })
-      });
-
-      const json = await r.json();
-      const newItemsList = [...items];
-      newItemsList.push(json.description);
-      setItems(newItemsList);
-      setNewItem('');
-    } catch (e) {
-      console.log(e);
-    }
+  const addNewItem = async (description: string) => {
+      const newItem = await addItem(description);
+      if(newItem){
+        const newItemsList = [...items];
+        newItemsList.push(newItem);
+        setItems(newItemsList);
+        setNewItem('');  
+      }
   }
 
-  const deleteItem = async (id: number) => {
-    try {
-      const r = await fetch(`http://localhost:3001/items/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id: id })
-      });
-
-      let updatedItemsList = [...items];
-      const indexToDelete = items.findIndex(i => i.id === id);
-      updatedItemsList.splice(indexToDelete, 1);
-      setItems(updatedItemsList);
-    } catch (e) {
-      console.log(e);
-    }
+  const callDeleteItem = async (id: number) => {
+      const success = await deleteItem(id);
+      if(success){
+        let updatedItemsList = [...items];
+        const indexToDelete = items.findIndex(i => i.id === id);
+        updatedItemsList.splice(indexToDelete, 1);
+        setItems(updatedItemsList);  
+      }
   }
 
   const listItems = items.map((i) => {
-    return <li key={i.id}>{i.description} <a onClick={() => deleteItem(i.id)}>X</a></li>
+    return <li key={i.id}>{i.description} <a onClick={() => callDeleteItem(i.id)}>X</a></li>
   });
 
   return (
@@ -73,7 +49,7 @@ function App() {
         <ul>{listItems}
         </ul>
         <input type="text" value={newItem} onChange={e => setNewItem(e.target.value)}></input>
-        <button onClick={() => addItem(newItem)}>Add</button>
+        <button onClick={() => addNewItem(newItem)}>Add</button>
 
       </section>
     </div>
