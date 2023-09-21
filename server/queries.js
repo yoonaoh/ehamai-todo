@@ -1,10 +1,9 @@
 const Pool = require('pg').Pool;
+require('dotenv').config();
+
+const connectionString = process.env.PGWEB_DATABASE_URL;
 const pool = new Pool({
-  user: 'testuser',
-  host: 'localhost',
-  database: 'Todo',
-  password: 'Password1234',
-  port: 5432,
+  connectionString
 });
 
 const getItems = (request, response) => {
