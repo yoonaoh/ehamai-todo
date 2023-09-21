@@ -2,6 +2,7 @@ const Pool = require('pg').Pool;
 require('dotenv').config();
 
 const connectionString = process.env.PGWEB_DATABASE_URL;
+console.log('connectionString: ' + connectionString);
 const pool = new Pool({
   connectionString
 });
@@ -9,7 +10,8 @@ const pool = new Pool({
 const getItems = (request, response) => {
   pool.query('SELECT * FROM TodoItems', (error, results) => {
     if (error) {
-      throw error;
+      console.log(error);
+      return;
     }
     response.status(200).json(results.rows);
   });
@@ -23,6 +25,7 @@ const addItem = (request, response) => {
     [description],
     (error, results) => {
       if (error) {
+        console.log(error);
         response.status(500).send(error.message);
         return;
       }
@@ -36,28 +39,12 @@ const deleteItem = (request, response) => {
 
   pool.query('DELETE FROM TodoItems WHERE id = $1', [id], (error, results) => {
     if (error) {
+      console.log(error);
       response.status(500).send(error.message);
       return;
     }
     response.status(200).send();
   });
-};
-
-
-const updateUser = (request, response) => {
-  const id = parseInt(request.params.id);
-  const { name, email } = request.body;
-
-  pool.query(
-    'UPDATE users SET name = $1, email = $2 WHERE id = $3',
-    [name, email, id],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      response.status(200).send(`User modified with ID: ${id}`);
-    }
-  );
 };
 
 module.exports = {
