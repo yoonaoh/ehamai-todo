@@ -37,7 +37,7 @@ function App() {
   }
 
   const listItems = items.map((i) => {
-    return <li key={i.id}>{i.description} <a href='#' onClick={() => callDeleteItem(i.id)}>X</a></li>
+    return <li key={i.id}>{i.description} <button onClick={() => callDeleteItem(i.id)}>X</button></li>
   });
 
   return (
