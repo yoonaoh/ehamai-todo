@@ -4,7 +4,7 @@ let baseHostUrl = '/api';
 
 // eslint-disable-next-line no-restricted-globals
 if(location.hostname === 'localhost'){
-    baseHostUrl = 'http://localhost:3001';
+    baseHostUrl = 'http://localhost:3001/api';
 }
 
 export const getItems = async () => {

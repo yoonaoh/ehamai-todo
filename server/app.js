@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
   res.send('Hello world!');
 })
 
-app.get('/env', (req, res) =>{
+app.get('/api/env', (req, res) =>{
   let envString = '';
   for(const key of Object.keys(process.env)){
     envString = `${envString}<br />${key} = ${process.env[key]}`;
@@ -26,9 +26,9 @@ app.get('/env', (req, res) =>{
   res.send('Environment variables: <br />' + envString);  
 })
 
-app.get('/items', db.getItems);
-app.post('/items', db.addItem);
-app.delete('/items/:id', db.deleteItem);
+app.get('/api/items', db.getItems);
+app.post('/api/items', db.addItem);
+app.delete('/api/items/:id', db.deleteItem);
 
 app.listen(port, () => {
   console.log(`Test Example app listening on port ${port}`)
