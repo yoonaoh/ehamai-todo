@@ -1,8 +1,7 @@
 const Pool = require('pg').Pool;
 require('dotenv').config();
 
-const connectionString = process.env.PGWEB_DATABASE_URL;
-console.log('connectionString: ' + connectionString);
+const connectionString = process.env.POSTGRES_POSTGRES_URL;
 const pool = new Pool({
   connectionString
 });
@@ -51,5 +50,4 @@ module.exports = {
   getItems,
   addItem,
   deleteItem,
-  updateUser,
 };
