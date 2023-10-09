@@ -1,4 +1,4 @@
-import { TodoItem } from "./models";
+import { Identity, TodoItem } from "./models";
 
 let baseHostUrl = '/api';
 
@@ -50,4 +50,13 @@ export const deleteItem = async (id: number) =>{
     }
 
     return true;
+}
+
+export const getUserInfo = async () =>{
+    try{
+        const response = await fetch(`${baseHostUrl}/.auth/me`);
+        return await response.json() as Identity;
+    }catch(e){
+        console.log(e);
+    }
 }
