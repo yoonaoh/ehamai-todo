@@ -54,7 +54,7 @@ export const deleteItem = async (id: number) =>{
 
 export const getUserInfo = async () =>{
     try{
-        const response = await fetch(`http://localhost:3001/.auth/me`);
+        const response = await fetch(`/.auth/me`);
         return await response.json() as Identity;
     }catch(e){
         console.log(e);
