@@ -22,7 +22,7 @@ const Profile = () => {
     } else{
         return <div className='profile'>
             <div >{clientPrincipal?.userDetails}</div>
-            <a href="/.auth/logout/github" className="btn btn-link">Log Out</a>
+            <a href="/.auth/logout" className="btn btn-link">Log Out</a>
         </div>
     }
 }
