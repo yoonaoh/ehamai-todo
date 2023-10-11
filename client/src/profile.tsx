@@ -21,10 +21,10 @@ const Profile = () => {
         </div>;
     } else{
         return <div className='profile'>
-            <div>{clientPrincipal?.userDetails}</div>
-            <a href="/.auth/logout/github" className="btn btn-link">Log Out</a>;
+            <div >{clientPrincipal?.userDetails}</div>
+            <a href="/.auth/logout/github" className="btn btn-link">Log Out</a>
         </div>
     }
-};
+}
 
 export default Profile;

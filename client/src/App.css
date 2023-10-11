@@ -41,7 +41,7 @@ header h1{
   display: block;
 }
 
-.profile button{
+.profile a{
   position: relative;
   right: 13px;
 }
