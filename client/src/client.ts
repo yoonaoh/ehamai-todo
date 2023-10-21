@@ -14,6 +14,8 @@ export const getItems = async () => {
         items = await r.json() as TodoItem[]; 
     }catch(e){
         console.log(e);
+        const client = (window as any).appInsights;
+        client.trackException({exception: new Error(`${e}`)});
     }
 
     return items;

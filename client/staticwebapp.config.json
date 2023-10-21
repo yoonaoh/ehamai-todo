@@ -1,27 +1,49 @@
 {
-    "trailingSlash": "auto",
-    "routes": [
-      {
-        "route": "/api/*",
-        "methods": ["GET"],
-        "allowedRoles": ["authenticated"]
-      },
-      {
-        "route": "/otherApiPath/*",
-        "redirect": "/api/"
-      },
-      {
-        "route": "/api/*",
-        "methods": ["PUT", "POST", "PATCH", "DELETE"],
-        "allowedRoles": ["contributor"]
-      },
-      {
-        "route": "/login",
-        "rewrite": "/.auth/login/github"
-      },
-      {
-        "route": "/logout",
-        "redirect": "/.auth/logout"
+  "trailingSlash": "auto",
+  "routes": [
+    {
+      "route": "/api/*",
+      "methods": [
+        "GET"
+      ],
+      "allowedRoles": [
+        "authenticated"
+      ]
+    },
+    {
+      "route": "/otherApiPath/*",
+      "redirect": "/api/"
+    },
+    {
+      "route": "/api/*",
+      "methods": [
+        "PUT",
+        "POST",
+        "PATCH",
+        "DELETE"
+      ],
+      "allowedRoles": [
+        "contributor"
+      ]
+    },
+    {
+      "route": "/login",
+      "rewrite": "/.auth/login/github"
+    },
+    {
+      "route": "/logout",
+      "redirect": "/.auth/logout"
+    }
+  ],
+  "auth": {
+    "identityProviders": {
+      "azureActiveDirectory": {
+        "registration": {
+          "openIdIssuer": "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/v2.0",
+          "clientIdSettingName": "AZURE_CLIENT_ID",
+          "clientSecretSettingName": "AZURE_CLIENT_SECRET"
+        }
       }
-    ]
+    }
   }
+}
