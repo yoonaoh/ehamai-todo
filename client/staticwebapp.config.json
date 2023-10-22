@@ -53,7 +53,14 @@
           "clientIdSettingName": "GITHUB_CLIENT_ID",
           "clientSecretSettingName": "GITHUB_CLIENT_SECRET"
         }
+      },
+      "apple": {
+        "registration": {
+          "clientIdSettingName": "APPLE_CLIENT_ID",
+          "clientSecretSettingName": "APPLE_CLIENT_SECRET"
+        }
       }
     }
   }
+}
 }
