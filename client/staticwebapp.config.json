@@ -54,13 +54,12 @@
           "clientSecretSettingName": "GITHUB_CLIENT_SECRET"
         }
       },
-      "apple": {
+      "facebook": {
         "registration": {
-          "clientIdSettingName": "APPLE_CLIENT_ID",
-          "clientSecretSettingName": "APPLE_CLIENT_SECRET"
+          "appIdSettingName": "FACEBOOK_APP_ID",
+          "appSecretSettingName": "FACEBOOK_APP_SECRET"
         }
       }
     }
   }
-}
 }
