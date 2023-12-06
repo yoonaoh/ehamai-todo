@@ -40,6 +40,5 @@ jobs:
           containerAppName: container-app-bd5mqx5qefyni
           resourceGroup: ehamaitodoa3ca
           imageToBuild: containerregistrybd5mqx5qefyni.azurecr.io/container-app-bd5mqx5qefyni:${{ github.sha }}
-          dockerfilePath: Dockerfile
 
 
