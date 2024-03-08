@@ -1,7 +1,7 @@
 const Pool = require('pg').Pool;
 require('dotenv').config();
 
-const connectionString = process.env.POSTGRES_POSTGRES_URL;
+const connectionString = process.env.POSTGRES_URL;
 const pool = new Pool({
   connectionString
 });
