@@ -30,6 +30,10 @@ app.get('/api/items', db.getItems);
 app.post('/api/items', db.addItem);
 app.delete('/api/items/:id', db.deleteItem);
 
-app.listen(port, () => {
-  console.log(`Test Example app listening on port ${port}`)
-})
+const listen = () =>{
+  app.listen(port, () => {
+    console.log(`Test Example app listening on port ${port}`)
+  })
+}
+
+db.initializeDatabase(listen);

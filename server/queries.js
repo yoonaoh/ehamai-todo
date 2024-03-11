@@ -6,6 +6,47 @@ const pool = new Pool({
   connectionString
 });
 
+console.log(process.env.POSTGRES_URL)
+
+const selectExists = `SELECT EXISTS (
+  SELECT * FROM pg_tables
+  WHERE  schemaname = 'public'
+  AND    tablename  = 'todoitems'
+  );`
+
+const createDB = `CREATE TABLE todoitems(
+  id SERIAL PRIMARY KEY,
+  description VARCHAR NOT NULL
+);`
+
+const initializeDatabase = (callback) => {
+
+  pool.query(selectExists, (error, result) => {
+    if (error) {
+      console.log(error);
+      throw Error('Failed to query todoitems table');
+    }
+
+    if (!result.rows[0].exists) {
+      console.log('TodoItems table was not found.  Creating...');
+      pool.query(createDB, (error) => {
+        if (error) {
+          console.log(error);
+          throw Error('Failed to initialize todoitems table');
+        }
+
+        callback();
+      })
+
+      return;
+    } else{
+      console.log('TodoItems table exists');
+    }
+
+    callback();
+  })
+}
+
 const getItems = (request, response) => {
   pool.query('SELECT * FROM TodoItems', (error, results) => {
     if (error) {
@@ -47,6 +88,7 @@ const deleteItem = (request, response) => {
 };
 
 module.exports = {
+  initializeDatabase,
   getItems,
   addItem,
   deleteItem,
