@@ -24,6 +24,7 @@ const initializeDatabase = (callback) => {
   pool.query(selectExists, (error, result) => {
     if (error) {
       console.log(`Failed to query todoitems table: ${error}`);
+      callback();
       return;
     }
 
@@ -41,9 +42,8 @@ const initializeDatabase = (callback) => {
       return;
     } else{
       console.log('TodoItems table exists');
+      callback();
     }
-
-    callback();
   })
 }
 
