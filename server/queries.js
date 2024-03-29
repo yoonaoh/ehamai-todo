@@ -23,8 +23,8 @@ const initializeDatabase = (callback) => {
 
   pool.query(selectExists, (error, result) => {
     if (error) {
-      console.log(error);
-      throw Error('Failed to query todoitems table');
+      console.log(`Failed to query todoitems table: ${error}`);
+      return;
     }
 
     if (!result.rows[0].exists) {
