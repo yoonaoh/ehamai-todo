@@ -18,7 +18,7 @@ const createDB = `CREATE TABLE todoitems(
   id SERIAL PRIMARY KEY,
   description VARCHAR NOT NULL
 );`
-
+ 
 const initializeDatabase = (callback) => {
 
   pool.query(selectExists, (error, result) => {
