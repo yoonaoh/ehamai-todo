@@ -102,13 +102,14 @@
             "type": "String"
         },
         "containerAppIngressTargetPort": {
-            "type": "String"
+            "defaultValue": "3001",
+            "type": "String",
         },
         "oidcUserIdentity": {
             "defaultValue": "[concat(parameters('containerAppName'), '-','oidcUserIdentity', '-msi')]",
             "type": "String"
         },
-        "OidcRbacNameToResourceGroup": {
+        "oidcRbacNameToResourceGroup": {
             "defaultValue": "[guid(resourceGroup().id)]",
             "type": "String"
         },
@@ -499,7 +500,7 @@
         {
             "type": "Microsoft.Authorization/roleAssignments",
             "apiVersion": "2022-04-01",
-            "name": "[parameters('OidcRbacNameToResourceGroup')]",
+            "name": "[parameters('oidcRbacNameToResourceGroup')]",
             "dependsOn": [
                 "[concat('Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('oidcUserIdentity'))]"
             ],
