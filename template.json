@@ -103,7 +103,7 @@
         },
         "containerAppIngressTargetPort": {
             "defaultValue": "3001",
-            "type": "String",
+            "type": "String"
         },
         "oidcUserIdentity": {
             "defaultValue": "[concat(parameters('containerAppName'), '-','oidcUserIdentity', '-msi')]",
