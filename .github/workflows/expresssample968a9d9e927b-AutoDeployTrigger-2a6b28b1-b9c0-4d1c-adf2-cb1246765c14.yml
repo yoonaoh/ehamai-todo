@@ -1,0 +1,47 @@
+name: Trigger auto deployment for expresssample968a9d9e927b
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - 'server/**'
+    - '.github/workflows/expresssample968a9d9e927b-AutoDeployTrigger-2a6b28b1-b9c0-4d1c-adf2-cb1246765c14.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.EXPRESSSAMPLE968A9D9E927B_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.EXPRESSSAMPLE968A9D9E927B_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.EXPRESSSAMPLE968A9D9E927B_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}/server 
+          registryUrl: 
+          registryUsername: ${{ secrets.EXPRESSSAMPLE968A9D9E927B_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.EXPRESSSAMPLE968A9D9E927B_REGISTRY_PASSWORD }}
+          containerAppName: expresssample968a9d9e927b
+          resourceGroup: expresssample968a9d9e
+          imageToBuild: default/expresssample968a9d9e927b:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
+
+
